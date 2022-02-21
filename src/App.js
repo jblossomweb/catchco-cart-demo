@@ -21,8 +21,7 @@ const App = () => {
   };
 
   const removeFromCart = (index) => {
-    const cartIndex = items.findIndex((item) => item.id === products[index].id);
-    setItems(items.splice(cartIndex, 1));
+    setItems(items.filter((val) => val !== index));
   };
 
   return (
