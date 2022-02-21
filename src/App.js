@@ -20,6 +20,12 @@ const App = () => {
     setItems([...items, index]);
   };
 
+  const subtractFromCart = (index) => {
+    const subtracted = [...items];
+    subtracted.splice(subtracted.lastIndexOf(index), 1);
+    setItems(subtracted);
+  };
+
   const removeFromCart = (index) => {
     setItems(items.filter((val) => val !== index));
   };
@@ -30,7 +36,9 @@ const App = () => {
       <div className="layout-row shop-component">
         <ProductList
           products={products}
+          cart={items}
           addToCart={addToCart}
+          subtractFromCart={subtractFromCart}
           removeFromCart={removeFromCart}
         />
         <Cart items={items} products={products} />

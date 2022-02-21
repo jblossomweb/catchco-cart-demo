@@ -1,9 +1,18 @@
 import React from "react";
+import countOccurrences from "../../utils/countOccurences";
 import "./index.css";
 
-const ProductList = ({ products, addToCart, removeFromCart }) => (
+const ProductList = ({
+  products,
+  cart,
+  addToCart,
+  subtractFromCart,
+  removeFromCart,
+}) => (
   <div className="layout-row wrap justify-content-center flex-70 app-product-list">
     {products.map((product, i) => {
+      const qtyInCart = countOccurrences(cart, i);
+
       return (
         <section
           className="w-30"
@@ -21,25 +30,53 @@ const ProductList = ({ products, addToCart, removeFromCart }) => (
               <p className="ma-0 mt-8 text-center">${product.price}</p>
             </div>
             <div className="card-actions justify-content-center pa-4">
-              <button
-                className="x-small outlined"
-                data-testid="btn-item-add"
-                onClick={() => {
-                  addToCart(i);
-                }}
-              >
-                Add To Cart
-              </button>
+              {!qtyInCart && (
+                <button
+                  className="x-small outlined"
+                  data-testid="btn-item-add"
+                  onClick={() => {
+                    addToCart(i);
+                  }}
+                >
+                  Add To Cart
+                </button>
+              )}
 
-              <button
-                className="x-small danger"
-                data-testid="btn-item-remove"
-                onClick={() => {
-                  removeFromCart(i);
-                }}
-              >
-                Remove
-              </button>
+              {!!qtyInCart && (
+                <div>
+                  <button
+                    className="x-small danger"
+                    data-testid="btn-item-minus"
+                    onClick={() => {
+                      subtractFromCart(i);
+                    }}
+                  >
+                    -
+                  </button>
+                  <span data-testid="span-item-qty">{qtyInCart}</span>
+                  <button
+                    className="x-small"
+                    data-testid="btn-item-plus"
+                    onClick={() => {
+                      addToCart(i);
+                    }}
+                  >
+                    +
+                  </button>
+                </div>
+              )}
+
+              {!!qtyInCart && (
+                <button
+                  className="x-small danger"
+                  data-testid="btn-item-remove"
+                  onClick={() => {
+                    removeFromCart(i);
+                  }}
+                >
+                  Remove All
+                </button>
+              )}
             </div>
           </div>
         </section>
