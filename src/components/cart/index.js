@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import countOccurrences from "../../utils/countOccurences";
 import "./index.css";
 
 const Cart = ({ items, products }) => {
@@ -8,6 +9,14 @@ const Cart = ({ items, products }) => {
     const { value } = event.currentTarget;
     setPctOff(Number(value));
   };
+
+  const quantities = items.reduce(
+    (lines, item) => ({
+      ...lines,
+      [item]: countOccurrences(items, item),
+    }),
+    {}
+  );
 
   const subTotal = items.reduce(
     (total, i) => total + products[i]?.price || 0,
@@ -29,10 +38,11 @@ const Cart = ({ items, products }) => {
             <th>Item</th>
             <th className="numeric">Quantity</th>
             <th className="numeric">Price</th>
+            <th className="numeric">Ext</th>
           </tr>
         </thead>
         <tbody>
-          {items.map((cartItem, idx) => (
+          {Object.keys(quantities).map((cartItem, idx) => (
             <tr
               data-testid={"cart-item-" + idx}
               key={idx + 1}
@@ -40,13 +50,16 @@ const Cart = ({ items, products }) => {
             >
               <td>{idx + 1}.</td>
               <td className="name" data-testid="cart-item-name">
-                {products[cartItem]?.name}
+                {products[cartItem]?.heading}
               </td>
               <td className="numeric quantity" data-testid="cart-item-quantity">
-                {products[cartItem]?.quantity}
+                {quantities[cartItem]}
               </td>
               <td className="numeric quantity" data-testid="cart-item-price">
                 {products[cartItem]?.price}
+              </td>
+              <td className="numeric quantity" data-testid="cart-item-ext">
+                {products[cartItem]?.price * quantities[cartItem]}
               </td>
             </tr>
           ))}
