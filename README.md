@@ -85,3 +85,16 @@ bash bin/env_setup && . $HOME/.nvm/nvm.sh && npm install
 ```bash
 bash bin/env_setup && . $HOME/.nvm/nvm.sh && npm test
 ```
+
+## Other Notes
+
+Regarding the TIMED HackerRank quiz, I wanted to point out that the following is a trick question:
+
+![Screen Shot 2022-02-21 at 12 55 12 PM](https://user-images.githubusercontent.com/3452236/155040154-b273fbf9-79d6-4d9f-ac4d-49142f275754.png)
+
+There is no answer because those arguments would cause an infinite loop.
+
+
+
+
+
